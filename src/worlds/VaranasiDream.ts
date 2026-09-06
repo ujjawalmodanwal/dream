@@ -49,7 +49,7 @@ export class VaranasiDream implements IDreamWorld {
     const photoSphere = new THREE.Mesh(skyGeo, skyMat);
     
     // Place screen straight ahead of the spawn position
-    photoSphere.position.set(0, 45, -80);
+    photoSphere.position.set(0, 15, -80);
     this.sceneGroup.add(photoSphere);
   }
 
@@ -57,7 +57,7 @@ export class VaranasiDream implements IDreamWorld {
     const floorGeo = new THREE.PlaneGeometry(100, 100);
     const floorMat = new THREE.MeshBasicMaterial({
       color: 0x000000,
-      visible: false 
+      visible: false // invisible floor for collision/walking
     });
     const floor = new THREE.Mesh(floorGeo, floorMat);
     floor.rotation.x = -Math.PI / 2;
@@ -69,12 +69,12 @@ export class VaranasiDream implements IDreamWorld {
     const portalGroup = new THREE.Group();
     portalGroup.position.copy(this.returnPortalPosition);
 
-    const stoneMat = new THREE.MeshStandardMaterial({ color: 0xff9e00, roughness: 0.6 });
+    const stoneMat = new THREE.MeshStandardMaterial({ color: 0x9b5de5, roughness: 0.6 });
     const arch = new THREE.Mesh(new THREE.TorusGeometry(1.5, 0.2, 12, 24), stoneMat);
     arch.position.y = 1.6;
     portalGroup.add(arch);
 
-    const glow = new THREE.PointLight(0xff9e00, 1.8, 8);
+    const glow = new THREE.PointLight(0xb5179e, 1.8, 8);
     glow.position.set(0, 1.6, 0);
     portalGroup.add(glow);
 
@@ -84,6 +84,8 @@ export class VaranasiDream implements IDreamWorld {
   public playVideo() {
     if (this.videoTexture && this.videoTexture.image) {
       const vid = this.videoTexture.image as HTMLVideoElement;
+      vid.muted = false;
+      vid.volume = 1.0;
       vid.play().catch(e => console.warn('Autoplay prevented:', e));
     }
   }

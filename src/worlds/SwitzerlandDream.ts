@@ -50,21 +50,20 @@ export class SwitzerlandDream implements IDreamWorld {
     const auroraSkyMesh = new THREE.Mesh(skyGeo, skyMat);
     
     // Place screen straight ahead of the spawn position
-    auroraSkyMesh.position.set(0, 45, -80);
+    auroraSkyMesh.position.set(0, 15, -80);
     this.sceneGroup.add(auroraSkyMesh);
   }
 
   private buildInvisibleFloor() {
-    // Flat invisible floor matching the immersive movie's ground perspective
-    const geo = new THREE.PlaneGeometry(100, 100);
-    const mat = new THREE.MeshBasicMaterial({
+    const floorGeo = new THREE.PlaneGeometry(100, 100);
+    const floorMat = new THREE.MeshBasicMaterial({
       color: 0x000000,
       visible: false // invisible floor for collision/walking
     });
-
-    const ground = new THREE.Mesh(geo, mat);
-    ground.rotation.x = -Math.PI / 2;
-    this.sceneGroup.add(ground);
+    const floor = new THREE.Mesh(floorGeo, floorMat);
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.y = 0;
+    this.sceneGroup.add(floor);
   }
 
   private buildReturnPortal() {
@@ -86,6 +85,8 @@ export class SwitzerlandDream implements IDreamWorld {
   public playVideo() {
     if (this.videoTexture && this.videoTexture.image) {
       const vid = this.videoTexture.image as HTMLVideoElement;
+      vid.muted = false;
+      vid.volume = 1.0;
       vid.play().catch(e => console.warn('Autoplay prevented:', e));
     }
   }

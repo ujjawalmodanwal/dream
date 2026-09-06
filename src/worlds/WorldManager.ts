@@ -107,8 +107,12 @@ export class WorldManager {
     // Adjust scene background & fog to match world mood
     this.updateAtmosphere(worldId);
 
-    // Switch soundscape
-    this.soundEngine.playWorldTheme(worldId);
+    // Switch soundscape or disable it for video worlds so native audio plays
+    if (['switzerland', 'aurora', 'underwater', 'paris', 'varanasi'].includes(worldId)) {
+      this.soundEngine.playWorldTheme('none'); // Stops all themes
+    } else {
+      this.soundEngine.playWorldTheme(worldId);
+    }
 
     // Ensure the video plays if this world has one
     if (typeof (this.currentWorld as any).playVideo === 'function') {

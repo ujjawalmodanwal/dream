@@ -50,7 +50,7 @@ export class AuroraDream implements IDreamWorld {
     const auroraSkyMesh = new THREE.Mesh(skyGeo, skyMat);
     
     // Place screen straight ahead of the spawn position
-    auroraSkyMesh.position.set(0, 45, -80);
+    auroraSkyMesh.position.set(0, 15, -80);
     this.sceneGroup.add(auroraSkyMesh);
   }
 
@@ -86,6 +86,8 @@ export class AuroraDream implements IDreamWorld {
   public playVideo() {
     if (this.auroraVideoTexture && this.auroraVideoTexture.image) {
       const vid = this.auroraVideoTexture.image as HTMLVideoElement;
+      vid.muted = false; // Play native video audio
+      vid.volume = 1.0;
       vid.play().catch(e => console.warn('Autoplay prevented:', e));
     }
   }
