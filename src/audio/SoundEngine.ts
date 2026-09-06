@@ -235,6 +235,10 @@ export class SoundEngine {
         this.startKrishnaDivineFlute();
         break;
 
+      case 'none':
+        // Explicitly do nothing, letting stopCurrentThemes() do the work
+        break;
+
       default:
         this.startRealTrack('forest', 0.65);
         this.startGardenMelody();
