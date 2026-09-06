@@ -37,10 +37,7 @@ export class ParisDream implements IDreamWorld {
 
   private buildImmersiveVideoSky() {
     // Immersive Flat Video Screen
-    this.videoTexture = TextureHelper.loadPlaylistVideoTexture([
-      '/videos/effiel1.mp4',
-      '/videos/effiel2.mp4'
-    ]);
+    this.videoTexture = TextureHelper.load360VideoTexture('/videos/paris.mp4');
     
     // Massive flat cinema screen: 16:9 ratio
     const skyGeo = new THREE.PlaneGeometry(160, 90);
