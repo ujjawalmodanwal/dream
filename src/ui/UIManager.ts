@@ -173,11 +173,11 @@ export class UIManager {
 
     // Dream Controls
     document.getElementById('btn-zoom-in')?.addEventListener('click', () => {
-      this.cameraController.setZoom(-5); // Reduce FOV (zoom in)
+      this.cameraController.setZoom(-10); // Reduce FOV (zoom in)
     });
     
     document.getElementById('btn-zoom-out')?.addEventListener('click', () => {
-      this.cameraController.setZoom(5); // Increase FOV (zoom out)
+      this.cameraController.setZoom(10); // Increase FOV (zoom out)
     });
 
     document.getElementById('btn-exit-dream')?.addEventListener('click', () => {
@@ -286,10 +286,25 @@ export class UIManager {
       this.openStreetViewModal();
     }
 
+    const isGarden = world.id === 'garden';
+
+    // Toggle specific controls
     const dreamControls = document.getElementById('dream-controls');
-    if (dreamControls) {
-      dreamControls.style.display = world.id === 'garden' ? 'none' : 'flex';
-    }
+    if (dreamControls) dreamControls.style.display = isGarden ? 'none' : 'flex';
+
+    // Hide extra buttons when inside a dream room
+    if (this.soundBtn) this.soundBtn.style.display = isGarden ? '' : 'none';
+    if (this.cameraBtn) this.cameraBtn.style.display = isGarden ? '' : 'none';
+    if (this.drawerToggleBtn) this.drawerToggleBtn.style.display = isGarden ? '' : 'none';
+    
+    const worldBadge = document.getElementById('current-world-badge');
+    if (worldBadge) worldBadge.style.display = isGarden ? '' : 'none';
+
+    const mobileControls = document.getElementById('mobile-controls');
+    if (mobileControls) mobileControls.style.display = isGarden ? '' : 'none';
+
+    const desktopGuide = document.getElementById('desktop-guide');
+    if (desktopGuide) desktopGuide.style.display = isGarden ? '' : 'none';
   }
 
   private onPromptChanged(portal: PortalData | null, isReturn: boolean) {

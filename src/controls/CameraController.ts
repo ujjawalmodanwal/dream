@@ -21,7 +21,7 @@ export class CameraController {
 
   public setZoom(delta: number) {
     // Zoom by adjusting the FOV (Field of View)
-    this.camera.fov = THREE.MathUtils.clamp(this.camera.fov + delta, 15, 80);
+    this.camera.fov = THREE.MathUtils.clamp(this.camera.fov + delta, 10, 150);
     this.camera.updateProjectionMatrix();
   }
 
