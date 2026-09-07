@@ -100,6 +100,7 @@ export class AuroraDream implements IDreamWorld {
     if (this.auroraVideoTexture && this.auroraVideoTexture.image) {
       const vid = this.auroraVideoTexture.image as HTMLVideoElement;
       vid.pause();
+      vid.currentTime = 0;
     }
     this.sceneGroup.clear();
   }

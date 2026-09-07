@@ -340,6 +340,10 @@ export class GardenHub implements IDreamWorld {
     return null;
   }
 
+  public getPortalById(id: string): PortalData | null {
+    return this.portals.find(p => p.id === id) || null;
+  }
+
   public update(delta: number, playerPos: THREE.Vector3) {
     this.time += delta;
 

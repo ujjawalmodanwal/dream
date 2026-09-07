@@ -54,7 +54,7 @@ class App {
     this.cameraController = new CameraController(this.camera);
     this.inputManager = new InputManager();
     this.worldManager = new WorldManager(this.scene, this.character, this.soundEngine);
-    this.uiManager = new UIManager(this.worldManager, this.soundEngine);
+    this.uiManager = new UIManager(this.worldManager, this.soundEngine, this.cameraController);
 
     this.setupResizeHandler();
     this.simulateLoading();

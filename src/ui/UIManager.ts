@@ -1,10 +1,12 @@
 import { WorldManager } from '../worlds/WorldManager';
 import { IDreamWorld, PortalData } from '../worlds/WorldInterface';
 import { SoundEngine } from '../audio/SoundEngine';
+import { CameraController } from '../controls/CameraController';
 
 export class UIManager {
   private worldManager: WorldManager;
   private soundEngine: SoundEngine;
+  private cameraController: CameraController;
 
   private loadingScreen: HTMLElement | null;
   private loadingBar: HTMLElement | null;
@@ -40,9 +42,10 @@ export class UIManager {
   private toastTimeout: number | null = null;
   private isPhotoMode: boolean = false;
 
-  constructor(worldManager: WorldManager, soundEngine: SoundEngine) {
+  constructor(worldManager: WorldManager, soundEngine: SoundEngine, cameraController: CameraController) {
     this.worldManager = worldManager;
     this.soundEngine = soundEngine;
+    this.cameraController = cameraController;
 
     this.loadingScreen = document.getElementById('loading-screen');
     this.loadingBar = document.getElementById('loading-bar');
@@ -168,6 +171,20 @@ export class UIManager {
       }
     });
 
+    // Dream Controls
+    document.getElementById('btn-zoom-in')?.addEventListener('click', () => {
+      this.cameraController.setZoom(-5); // Reduce FOV (zoom in)
+    });
+    
+    document.getElementById('btn-zoom-out')?.addEventListener('click', () => {
+      this.cameraController.setZoom(5); // Increase FOV (zoom out)
+    });
+
+    document.getElementById('btn-exit-dream')?.addEventListener('click', () => {
+      this.cameraController.resetZoom();
+      this.worldManager.transitionTo('garden');
+    });
+
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         this.closeStreetViewModal();
@@ -267,6 +284,11 @@ export class UIManager {
 
     if (this.streetViewModal?.classList.contains('open')) {
       this.openStreetViewModal();
+    }
+
+    const dreamControls = document.getElementById('dream-controls');
+    if (dreamControls) {
+      dreamControls.style.display = world.id === 'garden' ? 'none' : 'flex';
     }
   }
 

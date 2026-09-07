@@ -23,6 +23,7 @@ export class WorldManager {
   private worlds: Map<string, IDreamWorld> = new Map();
   private gardenHub!: GardenHub;
   private isTransitioning: boolean = false;
+  private lastDreamId: string | null = null;
   private onWorldChangeCallback?: (world: IDreamWorld) => void;
   private onPromptChangeCallback?: (portal: PortalData | null, isReturn: boolean) => void;
 
@@ -99,7 +100,24 @@ export class WorldManager {
 
     // Reposition player
     if (spawnAtStart) {
-      this.character.position.copy(this.currentWorld.spawnPosition);
+      if (worldId === 'garden' && this.lastDreamId) {
+        const portal = this.gardenHub.getPortalById(this.lastDreamId);
+        if (portal) {
+          // Spawn right outside the portal (offset towards center path x=0)
+          const offsetX = portal.position.x > 0 ? portal.position.x - 3 : portal.position.x + 3;
+          this.character.position.set(offsetX, this.currentWorld.spawnPosition.y, portal.position.z);
+          // Look at the portal
+          this.character.targetRotationY = portal.position.x > 0 ? Math.PI / 2 : -Math.PI / 2;
+        } else {
+          this.character.position.copy(this.currentWorld.spawnPosition);
+        }
+        this.lastDreamId = null; // Clear it after returning
+      } else {
+        this.character.position.copy(this.currentWorld.spawnPosition);
+        if (worldId !== 'garden') {
+          this.lastDreamId = worldId;
+        }
+      }
       this.character.velocity.set(0, 0, 0);
     }
     this.character.isSwimming = this.currentWorld.isUnderwaterOrCosmic;

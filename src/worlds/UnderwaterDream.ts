@@ -98,6 +98,7 @@ export class UnderwaterDream implements IDreamWorld {
     if (this.videoTexture && this.videoTexture.image) {
       const vid = this.videoTexture.image as HTMLVideoElement;
       vid.pause();
+      vid.currentTime = 0;
     }
     this.sceneGroup.clear();
   }

@@ -19,6 +19,17 @@ export class CameraController {
     );
   }
 
+  public setZoom(delta: number) {
+    // Zoom by adjusting the FOV (Field of View)
+    this.camera.fov = THREE.MathUtils.clamp(this.camera.fov + delta, 15, 80);
+    this.camera.updateProjectionMatrix();
+  }
+
+  public resetZoom() {
+    this.camera.fov = 55;
+    this.camera.updateProjectionMatrix();
+  }
+
   public update(delta: number, characterPosition: THREE.Vector3, characterHeight: number = 1.6) {
     // Eye level position
     const eyePos = new THREE.Vector3(
